@@ -1,0 +1,66 @@
+<div class="animated bounceInLeft wx">
+    <div>
+        <img class="wxpic" ng-src="{{list.pic}}"/>
+        <!--<p>这里是第{{num+1}}个页面</p>-->
+        <p class="name">
+        	<span class="call">{{list.call}}</span>  
+        	<span>{{list.name}}</span>
+        </p>
+      
+        <p class="pri">{{list.pri}}</p>
+        <p class="position">{{list.position}}</p>        
+        <p class="ename">{{list.ename}}:</p>
+        <p class="slogen">{{list.slogen}}</p>
+
+        
+        <ul class="nav">
+        	<li class="curli">技能</li>
+        	<li class="sx">属性</li>
+        	<li>技巧</li>
+        	<li>故事</li>
+        	<li>皮肤</li>
+        </ul>
+        
+        <div class="navcon">
+        	<div class="jn">
+		        <div class="skill" ng-repeat="(key,value) in list.skill">
+		        	<p>
+		        		<span>{{key}}</span> 
+		        		<span>{{value}}</span>
+		        	</p>
+		        </div>
+		    </div>
+		    <div class="tb">
+		            <!--echarts图表-->
+		             <div id="container"></div>
+		    </div>
+		    <div class="jq">
+		        <div class="tips" >
+		        	<p class="first">自己使用</p>
+		        	<div class="self" ng-repeat="item in list.tips.self">
+		        		<p>{{item}}</p>
+		        	</div>
+		        	
+		        	<p class="second">敌方使用</p>
+		        	<div class="enemy" ng-repeat="item in list.tips.enemy">
+		        		<p>{{item}}</p>
+		        	</div>        	
+		        </div>
+		    </div>
+		    <div class="gs">     
+		        <div class="story" ng-repeat="item in list.story">
+		        	<p>{{item}}</p>
+		        </div> 
+		    </div>
+		    <div class="pf">
+		        <div class="skins" ng-repeat="item in list.skins">	
+		        	<p>{{item[0]}}</p>
+		        	<span>{{item[1]}}</span>
+		        	<img ng-src="{{item[2]}}" alt="" />	
+		        </div>
+            
+		    </div>  
+        </div>
+    </div>
+
+</div>

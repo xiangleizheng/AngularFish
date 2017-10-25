@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html ng-app="app">
+	<head>
+		<meta charset="UTF-8">
+		<title>游鱼</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="css/forrouter.css" />
+		<link rel="stylesheet" href="css/animate.css" />
+		<script src="js/angular.js"></script>
+		<script src="js/angular-ui-router.js"></script>
+		<script src="js/jquery-3.2.1.min.js"></script>
+		<script src="js/echarts.min.js"></script>
+		<script src="controller/forone.js"></script>
+		<script src="controller/forlist.js"></script>
+		<script src="controller/fortwo.js"></script>
+		<script src="controller/forthree.js"></script>
+		<script>
+			document.documentElement.style.fontSize=innerWidth/25+"px";
+			 var app=angular.module("app",["ui.router","onemodule","twomodule","threemodule","listmodule"]);
+			 app.config(function($stateProvider,$urlRouterProvider){
+			 	 $urlRouterProvider.otherwise('/two')
+			 	  $stateProvider
+			 	  .state({
+			 	  	 name:'one',
+			 	  	 url:"/one",
+			 	  	 templateUrl:"./views/first.html",
+			 	  	 controller:"forlist"
+			 	  })
+		        .state("one.pageone", {//引号里面代表pageone是one的子页面，用.隔开
+		            url:"/pageone",
+		            templateUrl: "./views/pageone.html",
+		            controller:"forone"
+		        })
+		        .state("one.pagetwo", {//需要跳转页面的时候，就是用这双引号里面的地址
+		            url:"/pagetwo",
+		            templateUrl: "./views/pagetwo.html"
+		        })
+		        .state("one.pagethree", {
+		            url:"/pagethree",
+		            templateUrl: "./views/pagethree.html"
+		        })			 	  
+			 	   .state({
+			 	  	 name:'two',
+			 	  	 url:"/two",
+			 	  	 templateUrl:"./views/music.html",
+			 	  	 controller:"fortwo"
+			 	  })
+			 	   .state({
+			 	  	 name:'three',
+			 	  	 url:"/three",
+			 	  	 templateUrl:"./views/three.html",
+			 	  	 controller:"forthree"
+			 	  })
+			 })
+			app.directive("app",function(){
+				return {
+					restrict:"E",
+					templateUrl:"./views/app.html"
+				}
+			})
+		</script>
+	</head>
+	<body>
+	  <app></app>
+	</body>
+</html>
