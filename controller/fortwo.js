@@ -13,6 +13,9 @@
         })        
 
 	    var list=[];
+	    
+
+
 //------------初始状态设置	    
 	    if(localStorage.getItem('recent')){
 	        var recent=localStorage.getItem('recent').split(",");
@@ -24,6 +27,8 @@
 	    	var list = JSON.parse(localStorage.getItem("list"));
 	    	putinresult(list);
 	    }
+	    
+	    creatrecent(recent);
 	    
 //----------搜索区域节点事件
 			$(".txt").on("focus",function(){
@@ -45,7 +50,7 @@
 				  load(t);
 			});
 			
-
+//-------音乐数据加载
 			
 			function load(k){
 				
@@ -80,7 +85,8 @@
 							    }
 					})
 		    }
-			
+
+//------搜索结果显示
 			function putinresult(list){
 					$(".music")[0].style.display="block";
 					$(".result").html("");
@@ -89,12 +95,14 @@
 					}														
 			}
 
+//-------创建播放块
 			function creatvideo(a){
 				  $("body i").empty();
 				  $("body i").append("<video  class='videoplay' autoplay='' loop='loop' name='media'></video>");
 				  $(".videoplay").append("<source  src='http://ws.stream.qqmusic.qq.com/"+a+".m4a?fromtag=46' type='audio/mp4'>")
 			}
-			
+
+//--------最近播放
 			function creatrecent(a){
 				  $(".recent").empty();
 				  for(let i = 0 ;i<a.length;i++){
@@ -108,7 +116,7 @@
 					    span.appendChild(em)
 				  }
 			}
-
+//--------颜色切换
 			function changeC(){
 				var s = "#";
 				for(var i = 0;i<6;i++){
@@ -121,7 +129,8 @@
 				}
 
 			}
-			creatrecent(recent);
+			
+
 			
 			$(".result").on("click","li",function(event){
 				 event.stopPropagation();
@@ -134,17 +143,35 @@
 				    localStorage.setItem('recent',recent);
 				    let  pic = "//y.gtimg.cn/music/photo_new/T001R300x300M000"+$(this).attr("singerp")+".jpg?";
 				    $("i").append("<img src='"+pic+"'>")
-				    $("i").append("<p style='position: absolute;padding-left: 60px;box-sizing: border-box;top: 25px;width:100%;font-size: 18px;font-style: normal;text-align: center;color: #D1AB57;'>"+$(this).attr('singername')+"<br/><span style='text-align: center;font-size: 13px;margin-top: 20px;'>"+$(this).attr('songname')+"</span></p>") 
-				    $("i").append("<p class='nextone' ind='"+$(this).attr('ind')+"' style='position: absolute;width:26px;height:26px;border-radius:50%;box-sizing: border-box;top: 35px;right:15px;text-align:center;line-height:26px;'></p>") 
-				    $(".nextone").css({"background":"url(./img/bg-icon-v.png)","backgorund-size":"cover"})  
+				    $("i").append("<p>"+$(this).attr('singername')+"<br/><span style='text-align: center;font-size: 13px;margin-top: 20px;'>"+$(this).attr('songname')+"</span></p>") 
+				    $("i").append("<p class='lastone' ind='"+$(this).attr('ind')+"'></p>") 
+				    $("i").append("<p class='nextone' ind='"+$(this).attr('ind')+"'></p>") 
+				    $("i").append("<p class='like' ind='"+$(this).attr('ind')+"'>喜欢</p>") 
+					$("i").append("<p class='ps'>|</p>") 
 				}else{return}
 			})
       
-
-//    var next=true;
+//------上一首
+      $("i").on("click",".lastone",function(event){
+      	event.stopPropagation();
+		      	let index = parseInt($(this).attr("ind"))-1;
+//		      	console.log(list);
+		      	if(index>=0){
+				      	let songid = list[index].songid;
+//				      	console.log(list[index]);
+//				      	console.log(index,songid);
+				      	creatvideo(songid);
+						    $("i").append("<img src='//y.gtimg.cn/music/photo_new/T001R300x300M000"+list[index].singer[0].mid+".jpg?'>")
+						    $("i").append("<p>"+list[index].singer[0].name+"<br/><span style='text-align: center;font-size: 13px;margin-top: 20px;'>"+list[index].songname+"</span></p>") 
+						    $("i").append("<p class='lastone' ind='"+index+"'></p>") 
+						    $("i").append("<p class='nextone' ind='"+index+"'></p>") 
+						    $("i").append("<p class='like' ind='"+index+"'>喜欢</p>") 
+						    $("i").append("<p class='ps'>|</p>") 
+		      	}else{return}
+      })
+//-------下一首
       $("i").on("click",".nextone",function(event){
       	event.stopPropagation();
-//    	if(next){
 		      	let index = parseInt($(this).attr("ind"))+1;
 //		      	console.log(list);
 		      	if(list.length>index){
@@ -153,15 +180,15 @@
 //				      	console.log(index,songid);
 				      	creatvideo(songid);
 						    $("i").append("<img src='//y.gtimg.cn/music/photo_new/T001R300x300M000"+list[index].singer[0].mid+".jpg?'>")
-						    $("i").append("<p style='position: absolute;padding-left: 60px;box-sizing: border-box;top: 25px;width:100%;font-size: 18px;font-style: normal;text-align: center;color: #D1AB57;'>"+list[index].singer[0].name+"<br/><span style='text-align: center;font-size: 13px;margin-top: 20px;'>"+list[index].songname+"</span></p>") 
-						    $("i").append("<p class='nextone' ind='"+index+"' style='position: absolute;width:26px;height:26px;border-radius:50%;box-sizing: border-box;top: 35px;right:15px;text-align:center;line-height:26px;'></p>") 
-						    $(".nextone").css({"background":"url(./img/bg-icon-v.png)","backgorund-size":"cover"})  		      	
-//				      	next=false;
+						    $("i").append("<p>"+list[index].singer[0].name+"<br/><span style='text-align: center;font-size: 13px;margin-top: 20px;'>"+list[index].songname+"</span></p>") 
+						    $("i").append("<p class='lastone' ind='"+index+"'></p>") 
+						    $("i").append("<p class='nextone' ind='"+index+"'></p>")
+						    $("i").append("<p class='like' ind='"+index+"'>喜欢</p>") 
+						    $("i").append("<p class='ps'>|</p>") 
+						    
 		      	}else{return}
-//    	}else{
-//    			setTimeout(function(){next=true},2000)
-//    	}
       })
+
 
 			$(".recent").on("click","span",function(event){
 				 event.stopPropagation();
@@ -179,6 +206,43 @@
 					}
 					localStorage.setItem("recent",recent)
 			})
+//----暂停播放			
+			$("i").on("click",".ps",function(){
+				if($(".videoplay")[0].paused){
+					$(".videoplay")[0].play();
+					$(this).css({"opacity":"0.4","transform":"rotate(0deg)"})
+				}else{
+					$(".videoplay")[0].pause();
+					$(this).css({"opacity":"1","transform":"rotate(90deg)"})
+					
+				}
+			})
+//-----喜欢
+        
+	    if(JSON.parse(localStorage.getItem("likes"))){
+	    	$rootScope.likes=JSON.parse(localStorage.getItem("likes"))
+	    }else{
+	        $rootScope.likes=[];
+	    	
+	    }
 
+            $("i").on("click",".like",function(){
+  
+            	let index = parseInt($(this).attr("ind"));
+            	if($rootScope.likes.indexOf(list[index])==-1){
+            	    $rootScope.likes.push(list[index]);
+            	    $rootScope.likes=unique($rootScope.likes);
+            	    localStorage.setItem("likes",JSON.stringify($rootScope.likes))
+
+            	}else{return}
+            })
+            
+			function unique(array){ 
+			    var n = []; 
+				for(var i = 0; i < array.length; i++){ 
+				    if (n.indexOf(array[i]) == -1) n.push(array[i]); 
+				} 
+			    return n; 
+			}            
 
 })
