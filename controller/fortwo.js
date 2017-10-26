@@ -218,31 +218,24 @@
 				}
 			})
 //-----喜欢
-        
+        var likes=[];
 	    if(JSON.parse(localStorage.getItem("likes"))){
-	    	$rootScope.likes=JSON.parse(localStorage.getItem("likes"))
+	    	likes=JSON.parse(localStorage.getItem("likes"))
 	    }else{
-	        $rootScope.likes=[];
+	        likes=[];
 	    	
 	    }
 
             $("i").on("click",".like",function(){
   
             	let index = parseInt($(this).attr("ind"));
-            	if($rootScope.likes.indexOf(list[index])==-1){
-            	    $rootScope.likes.push(list[index]);
-            	    $rootScope.likes=unique($rootScope.likes);
-            	    localStorage.setItem("likes",JSON.stringify($rootScope.likes))
+            	if(likes.indexOf(list[index])==-1){
+            	    likes.push(list[index]);
+            	    localStorage.setItem("likes",JSON.stringify(likes))
 
             	}else{return}
             })
             
-			function unique(array){ 
-			    var n = []; 
-				for(var i = 0; i < array.length; i++){ 
-				    if (n.indexOf(array[i]) == -1) n.push(array[i]); 
-				} 
-			    return n; 
-			}            
+          
 
 })

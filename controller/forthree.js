@@ -1,14 +1,15 @@
  var app=angular.module("threemodule",[]);//定义一个名字
  app.controller("forthree",function($scope,$rootScope){
          
+            var likesarr=[];
             if(JSON.parse(localStorage.getItem("likes"))){
-                $rootScope.likes=JSON.parse(localStorage.getItem("likes"))
+                likesarr=unique(JSON.parse(localStorage.getItem("likes")));
             }else{
-            	$rootScope.likes=[];
+            	likesarr=[];
             }
 
             
-	        putinlikelist( $rootScope.likes);          	
+	        putinlikelist(likesarr);          	
 
 
             
@@ -19,5 +20,11 @@
 					}
 			}
 
-
+			function unique(array){ 
+			    var n = []; 
+				for(var i = 0; i < array.length; i++){ 
+				    if (n.indexOf(array[i]) == -1) n.push(array[i]); 
+				} 
+			    return n; 
+			}  
 })
